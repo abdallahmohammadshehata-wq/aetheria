@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a0b12" />
+    <meta name="color-scheme" content="dark light" />
+    <!-- Apply the saved palette, light/dark mode and language before the first paint, so a light page never flashes dark
+         (or the reverse) while the app loads. The settings store does the same thing afterwards and keeps it up to date. -->
+    <script>
+      (function () {
+        try {
+          var s = JSON.parse(localStorage.getItem('aetheria_settings_v1') || 'null') || {};
+          var html = document.documentElement;
+          var dark = s.mode === 'dark' || (s.mode !== 'light' && !(window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches));
+          html.setAttribute('data-mode', dark ? 'dark' : 'light');
+          if (s.theme) html.setAttribute('data-theme', s.theme);
+          if (s.language === 'ar' || s.language === 'en') {
+            html.lang = s.language;
+            html.dir = s.language === 'ar' ? 'rtl' : 'ltr';
+          }
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', dark ? '#0a0b12' : '#f7f6fd');
+        } catch (e) { /* storage blocked: the app sets everything once it starts */ }
+      })();
+    </script>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Aetheria" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="description" content="Aetheria: An interactive cross-platform AI storyteller powered by Gemini. Craft, explore, and listen to branching tales across genres." />
+    <!-- How a shared link looks in chats and search results. (No image: those need an absolute address, which depends on where the site is published.) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Aetheria" />
+    <meta property="og:title" content="Aetheria — AI Multimodal Storyteller" />
+    <meta property="og:description" content="Craft, explore and listen to branching tales with illustrations and natural narration, in Arabic and English." />
+    <meta name="twitter:card" content="summary" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700;800&family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=MedievalSharp&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <link rel="manifest" href="./manifest.json" />
+    <title>Aetheria — AI Multimodal Storyteller</title>
+    <script type="module" crossorigin src="./assets/index-zsHq8UKf.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CNyhTzb0.css">
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>Aetheria needs JavaScript to run. Please enable it and reload. / يحتاج التطبيق إلى تفعيل جافاسكربت ثم إعادة تحميل الصفحة.</noscript>
+  </body>
+</html>
