@@ -1,0 +1,1 @@
+const t="aetheria_hf_token";function r(){try{return typeof localStorage<"u"&&localStorage.getItem(t)||""}catch{return""}}const n=()=>!!r();function a(o){const e=String(o||"").trim();try{if(!e)localStorage.removeItem(t);else if(/^hf_[A-Za-z0-9]{20,}$/.test(e))localStorage.setItem(t,e);else return!1;return!0}catch{return!1}}export{r as g,n as h,a as s};

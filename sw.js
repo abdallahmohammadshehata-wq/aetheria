@@ -5,16 +5,19 @@
 //  - The whole build is precached on install (including the lazy screens), so every screen opens offline.
 //  - Page loads go to the network first (always fresh when online) and fall back to the cached shell.
 //  - Built assets and static files are served cache-first; Google Fonts are cached the first time they load.
+//  - The free voices' engine files (ONNX Runtime, the Kokoro build, the espeak data) come from jsDelivr at exact versions,
+//    which never change: they are kept the first time they load, so the voices work with no network afterwards.
 //  - Everything else (Gemini, the image service, ...) is left alone and goes straight to the network.
 //
 // A new worker waits before taking over, so a running tab never has its files swapped underneath it: until every tab is
 // closed, or until the page - after the reader presses Reload on the "new version is ready" notice - sends SKIP_WAITING.
 
-const BUILD_ID = 'c821008992'; /* __BUILD_ID__ */
-const PRECACHE = ["assets/AnimationPlayer-BIUMA1mt.css","assets/AnimationPlayer-CQEO-PX8.js","assets/Field-BHpe-XUa.js","assets/OfflineSheet-CXm5Mr8y.js","assets/SettingsScreen-CWQGdX7w.css","assets/SettingsScreen-Cwb7Qdm4.js","assets/StoryCard-BRfQjI46.js","assets/StoryCard-wbc3AgRA.css","assets/StoryExplore-B-lyEZh8.js","assets/StoryExplore-EBbApDKR.css","assets/StoryLibrary-BUE1e32C.css","assets/StoryLibrary-WoBFw_jl.js","assets/StoryReader-BXPGFyeS.css","assets/StoryReader-D35TOYPV.js","assets/StoryStudio-CZWb9o8Q.js","assets/StoryStudio-CbyTV4QU.css","assets/chevron-left-B01oOfgD.js","assets/chevron-right-BrmCG1GM.js","assets/circle-check-Qe75qPTP.js","assets/clapperboard-BkFeoZlD.js","assets/export-CUbpFCfk.js","assets/export-DPtvFgRG.js","assets/freeVoice-BE4ocAgE.js","assets/index-CNyhTzb0.css","assets/index-CRdZ5zX0.js","assets/ort-wasm-simd-threaded-DcHrbrbl.wasm","assets/soundscapeStore-BjT-5O9q.js","assets/storyAi-CUSmnHF9.js","assets/studioIntent-LbrD79co.js","assets/trash-BQaS_-UR.js","assets/upload-C3ZoJSuG.js"]; /* __PRECACHE__ */
+const BUILD_ID = 'fa734be470'; /* __BUILD_ID__ */
+const PRECACHE = ["assets/AnimationPlayer-Bb0BHrZ1.js","assets/AnimationPlayer-Doud7Maj.css","assets/Field-BW0ynjTE.js","assets/FilmViewer-RDb6EJh4.js","assets/FilmViewer-key7jIo4.css","assets/OfflineSheet-DkOizJjp.js","assets/SettingsScreen-BCgYQgoT.css","assets/SettingsScreen-Cxvn25P_.js","assets/StoryCard-oqJRlB0N.js","assets/StoryCard-wbc3AgRA.css","assets/StoryExplore-C_qeKx9s.js","assets/StoryExplore-EBbApDKR.css","assets/StoryLibrary-BUE1e32C.css","assets/StoryLibrary-Cbucn4l9.js","assets/StoryReader-BXPGFyeS.css","assets/StoryReader-CpE54MGp.js","assets/StoryStudio-CbyTV4QU.css","assets/StoryStudio-hY_MQRzq.js","assets/chevron-left-DxmLH-iS.js","assets/chevron-right-ByBCjkz0.js","assets/circle-check-C2hcNKWv.js","assets/clapperboard-D0xVpmDk.js","assets/export-DF4a_WVj.js","assets/export-DU1oIa_l.js","assets/hfToken-JLmhMWjG.js","assets/index-CNyhTzb0.css","assets/index-gh370Ysa.js","assets/ort-wasm-simd-threaded-DcHrbrbl.wasm","assets/soundscapeStore-C72K1P90.js","assets/storyAi-Bc5SHl22.js","assets/storyWriter-snxdLFT-.js","assets/studioIntent-CGU2vKBB.js","assets/trash-Baar5pQc.js","assets/upload-C9iBcfDB.js"]; /* __PRECACHE__ */
 
 const SHELL_CACHE = `aetheria-shell-${BUILD_ID}`;
 const FONT_CACHE = 'aetheria-fonts-v1';
+const CDN_CACHE = 'aetheria-cdn-v1';
 const NAVIGATION_TIMEOUT_MS = 4000;
 
 const inScope = (path) => new URL(path, self.registration.scope).href;
@@ -90,6 +93,8 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(staleWhileRevalidate(request, FONT_CACHE));
   } else if (url.hostname === 'fonts.gstatic.com') {
     event.respondWith(cacheFirst(request, FONT_CACHE));
+  } else if (url.hostname === 'cdn.jsdelivr.net' && /@\d+\.\d+\.\d+[^/]*\//.test(url.pathname)) {
+    event.respondWith(cacheFirst(request, CDN_CACHE));
   }
   // anything else: not intercepted
 });
