@@ -1,4 +1,4 @@
-import{ac as T,ad as m,ae as k,af as A,ag as x,ah as N,ai as O,aj as R,v as _,ak as H}from"./index-DcQkbgJS.js";const I=`You are Aetheria, an acclaimed master storyteller and fantasy worldbuilder.
+import{ac as T,ad as m,ae as k,af as A,ag as x,ah as N,ai as O,aj as R,v as _,ak as H}from"./index-CRdZ5zX0.js";const I=`You are Aetheria, an acclaimed master storyteller and fantasy worldbuilder.
 You craft vivid, sensory-rich, emotionally gripping interactive tales.
 Your language should feel cinematic, poetic, and engaging for both mobile readers and desktop audiences.
 Always return your output in strict JSON format.`,J=`You are Aetheria, master interactive storyteller.

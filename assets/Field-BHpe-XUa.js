@@ -1,0 +1,1 @@
+import{i as c,j as a,d}from"./index-CRdZ5zX0.js";function l({label:e,hint:s,className:n,children:i}){const t=c.useId(),o=s?`${t}-hint`:void 0;return a.jsxs("div",{className:d("ui-field",n),children:[e&&a.jsx("label",{className:"ui-label",htmlFor:t,children:e}),typeof i=="function"?i(t,o):i,s&&a.jsx("span",{id:o,className:"ui-hint",children:s})]})}export{l as F};
